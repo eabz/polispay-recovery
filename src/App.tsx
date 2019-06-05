@@ -1,16 +1,15 @@
 import React from 'react';
 import './App.css';
 import MainNavBar from "./components/MainNavBar";
-import {Container} from "reactstrap";
+import MainContent from "./components/MainContent";
 
 const App: React.FC = () => {
   return (
       <div>
           <MainNavBar/>
           <div className="app-bg">
-              <Container>
-
-              </Container>
+              <br/>
+              <MainContent/>
           </div>
       </div>
   );
