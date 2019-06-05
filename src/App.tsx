@@ -1,13 +1,18 @@
 import React from 'react';
 import './App.css';
+import MainNavBar from "./components/MainNavBar";
+import {Container} from "reactstrap";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
+      <div>
+          <MainNavBar/>
+          <div className="app-bg">
+              <Container>
 
-      </header>
-    </div>
+              </Container>
+          </div>
+      </div>
   );
 };
 
