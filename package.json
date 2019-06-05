@@ -1,6 +1,7 @@
 {
   "name": "polispay-recovery",
   "version": "0.1.0",
+  "license": "MIT",
   "author": {
     "email": "eabz@polispay.org",
     "name": "Enrique Berrueta"
@@ -16,7 +17,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.0"
+    "reactstrap": "^8.0.0",
+    "typescript": "^3.5.1"
   },
   "scripts": {
     "start": "rescripts start",
