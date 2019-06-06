@@ -11,7 +11,7 @@ import {
     Form,
     FormGroup,
     Input,
-    InputGroup, Navbar, NavbarBrand, NavItem,
+    InputGroup, Modal, ModalBody, ModalFooter, ModalHeader, Navbar, NavbarBrand, NavItem,
     Row
 } from "reactstrap";
 import {CoinFactory} from "../models/coin-factory/coin-factory";
@@ -35,6 +35,7 @@ export interface MainContentState {
     ShowPrivate: boolean;
     TimerShow: number,
     TimerResume: number,
+    WelcomeModalClosed: boolean,
 }
 class MainContent extends React.Component<MainContentProps, MainContentState> {
 
@@ -43,6 +44,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         this.startRecovery = this.startRecovery.bind(this);
         this.showPrivInfo = this.showPrivInfo.bind(this);
         this.clearAll = this.clearAll.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     };
 
@@ -62,6 +64,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         ShowPrivate: false,
         TimerShow: 60,
         TimerResume: 120,
+        WelcomeModalClosed: false,
     };
 
 
@@ -356,6 +359,32 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         )
     }
 
+    closeModal() {
+        this.setState({WelcomeModalClosed: true})
+    }
+
+    renderWelcomeModal() {
+        if (!this.state.WelcomeModalClosed) {
+            return (
+                <div>
+                    <Modal isOpen={!this.state.WelcomeModalClosed} toggle={this.closeModal}>
+                        <ModalHeader toggle={this.closeModal}>Important Information</ModalHeader>
+                        <ModalBody>
+                            The PolisPay Recovery tool, is very dangerous if you don't know what you are doing.
+                            Using mnemonic phrases and exposing to your computer can result on your private keys stolen if your device is not secure.
+                            This tool is not created for daily use and should be only used on emergency cases.
+                            If your device is compromised, the PolisPay and PolisCore team is not responsible of your keys security.
+                            By clicking accept and using this tool, you accept the terms and remove all responsibility from the app creators.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={this.closeModal}>Accept</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            )
+        }
+    }
+
     render() {
         if (this.state.View === 1) {
             return (
@@ -365,6 +394,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     text='Loading data...'
                 >
                     { this.renderNavBar() }
+                    { this.renderWelcomeModal() }
                     <div className="app-bg" style={{height: window.innerHeight}}>
                         <br/>
                         <Container>
