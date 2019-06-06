@@ -370,11 +370,11 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     <Modal isOpen={!this.state.WelcomeModalClosed} toggle={this.closeModal}>
                         <ModalHeader toggle={this.closeModal}>Important Information</ModalHeader>
                         <ModalBody>
-                            The PolisPay Recovery tool, is very dangerous if you don't know what you are doing.
-                            Using mnemonic phrases and exposing to your computer can result on your private keys stolen if your device is not secure.
-                            This tool is not created for daily use and should be only used on emergency cases.
-                            If your device is compromised, the PolisPay and PolisCore team is not responsible of your keys security.
-                            By clicking accept and using this tool, you accept the terms and remove all responsibility from the app creators.
+                            <p>The PolisPay Recovery tool, is very dangerous if you don't know what you are doing. The app is open sourced and you can check the code here: <a href="https://github.com/eabz/polispay-recovery" rel="noopener noreferrer" target="_blank">Source Code</a>.</p>
+                            <p>Make sure you verify the binaries before downloading following the instructions <a href="https://github.com/eabz/polispay-recovery" rel="noopener noreferrer" target="_blank">here</a></p>
+                            <p>Using mnemonic phrases and exposing to your computer can result on your private keys stolen if your device is not secure.</p>
+                            <p>This tool is not created for daily use and should be only used on emergency cases. If your device is compromised, the PolisPay and PolisCore team is not responsible of your keys security.</p>
+                            <p>By clicking accept and using this tool, you accept the terms and remove all responsibility from the app creators.</p>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={this.closeModal}>Accept</Button>
