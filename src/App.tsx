@@ -7,10 +7,7 @@ const App: React.FC = () => {
   return (
       <div>
           <MainNavBar/>
-          <div className="app-bg">
-              <br/>
-              <MainContent/>
-          </div>
+          <MainContent/>
       </div>
   );
 };

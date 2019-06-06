@@ -3,9 +3,4 @@
 }
 .app-bg {
   background-color: aliceblue;
-  height: 100%;
-  position: absolute;
-  left: 0px;
-  width: 100%;
-  overflow: hidden;
 }

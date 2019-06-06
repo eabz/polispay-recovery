@@ -5,11 +5,13 @@ import {Alert, Button, Card, CardBody, Container, Form, FormGroup, Input, InputG
 import {CoinFactory} from "../models/coin-factory/coin-factory";
 import {Coin} from "../models/coin-factory/coin";
 import LoadingOverlay from 'react-loading-overlay';
+import {WalletCreator} from "../services/wallet/wallet";
 
 export interface MainContentProps {
 }
 export interface MainContentState {
     SelectedCoin: Coin;
+    Purpose: number;
     MnemonicPhrase: string;
     Ready: boolean;
     WrongMnemonic: boolean
@@ -30,6 +32,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         WrongMnemonic: false,
         View: 1,
         Loading: false,
+        Purpose: 44,
     };
 
     handleMnemonicInput = (e) => {
@@ -110,9 +113,9 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
     }
 
     startRecovery() {
-        this.setState({Loading: true}, () => {
+        this.setState({Loading: true}, async () => {
             // Create keys and addressess
-
+            await WalletCreator.prototype.createWallet(this.state.MnemonicPhrase, this.state.SelectedCoin, 44)
             // Check for available balanaces
 
             // Finish data and render results
@@ -128,31 +131,34 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                 <LoadingOverlay
                     active={this.state.Loading}
                     spinner
-                    text='Generating data...'
+                    text='Loading data...'
                 >
-                    <Container>
-                        <Card>
-                            <CardBody style={{textAlign: "center"}}>
-                                <h2>PolisPay Recovery</h2>
-                                <p>This app will help you recoverying private keys from mnemonic phrases</p>
-                                <br/>
-                                <p>Please paste your mnemonic on the form below</p>
-                                <br/>
-                                { this.renderMnemonicForm() }
-                                <br/>
-                                <p>Select the coin</p>
-                                { this.renderCoinsSelector() }
-                                <p>
-                                    <Button
-                                        disabled={!this.state.Ready}
-                                        color="warning"
-                                        onClick={this.startRecovery}
-                                    >Recover
-                                    </Button>
-                                </p>
-                            </CardBody>
-                        </Card>
-                    </Container>
+                    <div className="app-bg" style={{height: window.innerHeight}}>
+                        <br/>
+                        <Container>
+                            <Card>
+                                <CardBody style={{textAlign: "center"}}>
+                                    <h2>PolisPay Recovery</h2>
+                                    <p>This app will help you recoverying private keys from mnemonic phrases</p>
+                                    <br/>
+                                    <p>Please paste your mnemonic on the form below</p>
+                                    <br/>
+                                    { this.renderMnemonicForm() }
+                                    <br/>
+                                    <p>Select the coin</p>
+                                    { this.renderCoinsSelector() }
+                                    <p>
+                                        <Button
+                                            disabled={!this.state.Ready}
+                                            color="warning"
+                                            onClick={this.startRecovery}
+                                        >Recover
+                                        </Button>
+                                    </p>
+                                </CardBody>
+                            </Card>
+                        </Container>
+                    </div>
                 </LoadingOverlay>
             );
         } else if (this.state.View === 2) {

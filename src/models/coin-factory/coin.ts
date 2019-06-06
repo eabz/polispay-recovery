@@ -18,4 +18,5 @@ export interface Base58Prefixes {
     Private: number;
     ExtPub: number;
     ExtPriv: number;
+    Bech32?: string;
 }
