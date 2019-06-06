@@ -17,6 +17,7 @@ export interface Wallet {
         Address: Address[];
         LastPathDirect: number;
         LastPathChange: number;
+        Utxos: [];
 
     },
     P2WPKH?: {
@@ -25,6 +26,7 @@ export interface Wallet {
         Address: Address[];
         LastPathDirect: number;
         LastPathChange: number;
+        Utxos: [];
     },
     P2SHInP2WPKH?: {
         AccountPub: string;
@@ -32,6 +34,7 @@ export interface Wallet {
         Address: Address[];
         LastPathDirect: number;
         LastPathChange: number;
+        Utxos: [];
     },
     ETH?: {
         AccountPub: string;
@@ -39,6 +42,7 @@ export interface Wallet {
         Address: Address[];
         LastPathDirect: number;
         LastPathChange: number;
+        Utxos: [];
     },
 
 }

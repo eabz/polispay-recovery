@@ -123,6 +123,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     Address: [],
                     LastPathChange: 0,
                     LastPathDirect: 0,
+                    Utxos: [],
                 },
                 ETH: {
                     AccountPriv: null,
@@ -130,6 +131,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     Address: [],
                     LastPathChange: 0,
                     LastPathDirect: 0,
+                    Utxos: [],
                 },
                 P2SHInP2WPKH: {
                     AccountPriv: null,
@@ -137,6 +139,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     Address: [],
                     LastPathChange: 0,
                     LastPathDirect: 0,
+                    Utxos: [],
                 },
                 P2PKH: {
                     AccountPriv: null,
@@ -144,6 +147,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     Address: [],
                     LastPathChange: 0,
                     LastPathDirect: 0,
+                    Utxos: [],
                 }
             };
             if (this.state.SelectedCoin.segwitAvailable) {
@@ -153,12 +157,11 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
             } else {
                 await WalletCreator.prototype.createWallet(wallet, this.state.MnemonicPhrase, this.state.SelectedCoin, 44);
             }
-            console.log(wallet);
 
             // Finish data and render results
-            /*this.setState( {View: 2}, () => {
+            this.setState( {View: 2}, () => {
                 this.setState({Loading: false})
-            })*/
+            })
         })
     }
 

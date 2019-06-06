@@ -52,4 +52,22 @@ export class Electrum {
             }));
         return [].concat.apply([], addpaths);
     }
+
+    async getAddrUtxos(address: Address[], coin: Coin) {
+        const rpc = await this.electrumClient(coin.electrumHost.url, coin.electrumHost.port);
+        let batch = [];
+        for (let i = 0; i < address.length; i++) {
+            let call = {
+                method: 'blockchain.scripthash.listunspent',
+                params: [address[i].scripthash]
+            };
+            batch.push({call});
+        }
+        let batchRes = await rpc.batch(batch);
+        let addpaths = batchRes.map((txArr, ind) =>
+            txArr.map((tx) =>  {
+                return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, address: address[ind].address };
+            }));
+        return [].concat.apply([], addpaths);
+    }
 }

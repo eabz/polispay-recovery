@@ -30,7 +30,10 @@ export class WalletCreator {
 
             // Get address array from Last used + gap
             let gapTop = wallet.P2PKH.LastPathDirect > wallet.P2PKH.LastPathChange ? wallet.P2PKH.LastPathDirect : wallet.P2PKH.LastPathChange
-            wallet.P2PKH.Address = await this.addresses(account, coin, purpose, false, null, gapTop)
+            wallet.P2PKH.Address = await this.addresses(account, coin, purpose, false, null, gapTop);
+
+            // Get Utxos from Address Array
+            wallet.P2PKH.Utxos = await Electrum.prototype.getAddrUtxos(wallet.P2PKH.Address, coin);
         }
         if (purpose === 49) {
             let rootPriv = await this.rootPrivateKey(mnemonic, coin);
@@ -52,6 +55,9 @@ export class WalletCreator {
             let gapTop = wallet.P2SHInP2WPKH.LastPathDirect > wallet.P2SHInP2WPKH.LastPathChange ? wallet.P2SHInP2WPKH.LastPathDirect : wallet.P2SHInP2WPKH.LastPathChange
             wallet.P2SHInP2WPKH.Address = await this.addresses(account, coin, purpose, false, null, gapTop)
 
+            // Get Utxos from Address Array
+            wallet.P2SHInP2WPKH.Utxos = await Electrum.prototype.getAddrUtxos(wallet.P2SHInP2WPKH.Address, coin);
+
         }
         if (purpose === 84) {
             let rootPriv = await this.rootPrivateKey(mnemonic, coin);
@@ -72,6 +78,9 @@ export class WalletCreator {
             // Get address array from Last used + gap
             let gapTop = wallet.P2WPKH.LastPathDirect > wallet.P2WPKH.LastPathChange ? wallet.P2WPKH.LastPathDirect : wallet.P2WPKH.LastPathChange;
             wallet.P2WPKH.Address = await this.addresses(account, coin, purpose, false, null, gapTop)
+
+            // Get Utxos from Address Array
+            wallet.P2WPKH.Utxos = await Electrum.prototype.getAddrUtxos(wallet.P2WPKH.Address, coin);
 
         }
 
@@ -112,7 +121,7 @@ export class WalletCreator {
         };
         let AddressesArray: Address[] = [];
         let GapBottom = scan ? 20 * round : 0;
-        let GapTop = scan ? 20 * round + 20 : gapTop;
+        let GapTop = scan ? 20 * round + 20 : gapTop + 20;
         for (let i = GapBottom; i < GapTop; i++) {
             let derivationDirect = account.derive('m/0/' + i);
             let derivationChange = account.derive('m/1/' + i);
@@ -160,7 +169,7 @@ export class WalletCreator {
         let PathsDirect = [];
         for (let i = 0; i < txHistoryLength; i++) {
             let split = txHistory[i].path.split("/");
-            if (split[1] == 0) {
+            if (split[1] === "0") {
                 PathsDirect.push(split[2])
             }
         }
@@ -172,7 +181,7 @@ export class WalletCreator {
         let PathsChange = [];
         for (let i = 0; i < txHistoryLength; i++) {
             let split = txHistory[i].path.split("/");
-            if (split[1] == 1) {
+            if (split[1] === "1") {
                 PathsChange.push(split[2])
             }
         }
