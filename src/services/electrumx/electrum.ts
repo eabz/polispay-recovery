@@ -50,6 +50,7 @@ export class Electrum {
             txArr.map((tx) =>  {
                 return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, address: address[ind].address };
             }));
+        rpc.close();
         return [].concat.apply([], addpaths);
     }
 
@@ -68,6 +69,7 @@ export class Electrum {
             txArr.map((tx) =>  {
                 return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, address: address[ind].address };
             }));
+        rpc.close();
         return [].concat.apply([], addpaths);
     }
 }
