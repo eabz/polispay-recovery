@@ -10,11 +10,15 @@ export class Dash implements Coin {
         port: "52003"
     };
     segwitAvailable = false;
-    base58prefixes = {
-        Public: 76,
-        Script: 16,
-        Private: 204,
-        ExtPub: 0x0488B21E,
-        ExtPriv: 0x0488ADE4,
+    network = {
+        messagePrefix: "\x18Dash Signed Message\n",
+        bech32: "",
+        bip32: {
+            public: 0x0488B21E,
+            private: 0x0488ADE4,
+        },
+        pubKeyHash: 76,
+        scriptHash: 16,
+        wif: 204,
     }
 }

@@ -11,16 +11,21 @@ export interface Coin {
     blockbookHost?: string;
     insightHost?: string;
     segwitAvailable: boolean;
-    base58prefixes: Base58Prefixes;
+    network: NetworkPrefixes;
 }
 
-export interface Base58Prefixes {
-    Public: number;
-    Script: number;
-    Private: number;
-    ExtPub: number;
-    ExtPriv: number;
-    Bech32?: string;
+export interface NetworkPrefixes {
+    messagePrefix: string;
+    bech32: string;
+    bip32: Bip32;
+    pubKeyHash: number;
+    scriptHash: number;
+    wif: number;
+}
+
+interface Bip32 {
+    public: number;
+    private: number;
 }
 
 export interface ElectrumHost {

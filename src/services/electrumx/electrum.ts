@@ -48,7 +48,7 @@ export class Electrum {
         let batchRes = await rpc.batch(batch);
         let addpaths = batchRes.map((txArr, ind) =>
             txArr.map((tx) =>  {
-                return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, address: address[ind].address };
+                return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, addrType: address[ind].type, address: address[ind].address };
             }));
         return [].concat.apply([], addpaths);
     }
@@ -66,7 +66,7 @@ export class Electrum {
         let batchRes = await rpc.batch(batch);
         let addpaths = batchRes.map((txArr, ind) =>
             txArr.map((tx) =>  {
-                return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, address: address[ind].address };
+                return{ tx_hash: tx.tx_hash, height: tx.height, path: address[ind].path, type: address[ind].type, purpose: address[ind].purpose, address: address[ind].address };
             }));
         return [].concat.apply([], addpaths);
     }

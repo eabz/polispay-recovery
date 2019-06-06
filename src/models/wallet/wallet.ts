@@ -51,6 +51,6 @@ export interface Address {
     scripthash: string;
     address: string;
     purpose: number;
-    path: string;
+    path: number;
     type: string;
 }

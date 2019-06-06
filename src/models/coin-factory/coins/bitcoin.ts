@@ -10,12 +10,15 @@ export class Bitcoin implements Coin {
         port: "52001"
     };
     segwitAvailable = true;
-    base58prefixes = {
-        Public: 0,
-        Script: 5,
-        Private: 128,
-        ExtPub: 0x0488B21E,
-        ExtPriv: 0x0488ADE4,
-        Bech32: "bc",
+    network = {
+        messagePrefix: "\x18Bitcoin Signed Message\n",
+        bech32: "bc",
+        bip32: {
+            public: 0x0488B21E,
+            private: 0x0488ADE4,
+        },
+        pubKeyHash: 0,
+        scriptHash: 5,
+        wif: 128,
     }
 }

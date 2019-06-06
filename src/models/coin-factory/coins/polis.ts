@@ -10,11 +10,15 @@ export class Polis implements Coin {
         port: "52003"
     };
     segwitAvailable = false;
-    base58prefixes = {
-        Public: 55,
-        Script: 56,
-        Private: 60,
-        ExtPub: 0x03e25d7e,
-        ExtPriv: 0x03e25945,
+    network = {
+        messagePrefix: "\x18Polis Signed Message\n",
+        bech32: "",
+        bip32: {
+            public: 0x03e25d7e,
+            private: 0x03e25945,
+        },
+        pubKeyHash: 55,
+        scriptHash: 56,
+        wif: 60,
     }
 }

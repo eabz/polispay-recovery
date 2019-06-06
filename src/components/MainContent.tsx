@@ -11,7 +11,7 @@ import {
     Form,
     FormGroup,
     Input,
-    InputGroup, Navbar, NavbarBrand,
+    InputGroup, Navbar, NavbarBrand, NavItem,
     Row
 } from "reactstrap";
 import {CoinFactory} from "../models/coin-factory/coin-factory";
@@ -42,11 +42,13 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         super(props);
         this.startRecovery = this.startRecovery.bind(this);
         this.showPrivInfo = this.showPrivInfo.bind(this);
+        this.clearAll = this.clearAll.bind(this);
 
     };
 
     TimerShowInterval;
     TimerResumeInterval;
+    PubPrivPairs = [];
 
     wallet: Wallet;
     state = {
@@ -62,6 +64,28 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         TimerResume: 120,
     };
 
+
+    handleMnemonicInput = (e) => {
+        let mnemonic = e.target.value;
+        let validMnemonic = bip39.validateMnemonic(mnemonic);
+        if (validMnemonic) {
+            this.setState({MnemonicPhrase: mnemonic, WrongMnemonic: false})
+        } else {
+            this.setState( {MnemonicPhrase: "", WrongMnemonic: true, Ready: false})
+        }
+    };
+
+    handleSelectedCoin = (e) => {
+        let selectedCoin = CoinFactory.getCoinConfig(e.target.value);
+        this.setState({SelectedCoin: selectedCoin} );
+    };
+
+    clearAll() {
+        for (let member in this.wallet) delete this.wallet[member];
+        clearInterval(this.TimerShowInterval);
+        clearInterval(this.TimerResumeInterval);
+        this.setState({View: 1, TimerShow: 60, TimerResume: 120})
+    }
 
     showPrivInfo() {
         // Show Popup
@@ -80,10 +104,30 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
             .then( result => {
                 if (result) {
                     this.setState({ View: 3});
+                    clearInterval(this.TimerResumeInterval);
+                    this.setState({TimerResume: 120});
+                    // Show private information
+                    let Utxos = [].concat(this.wallet.P2PKH.Utxos, this.wallet.P2WPKH.Utxos, this.wallet.P2SHInP2WPKH.Utxos, this.wallet.ETH.Utxos);
+                    for (let i = 0; i < Utxos.length; i++) {
+                        let PubKey;
+                        let PrivKey;
+                        if (Utxos[i].purpose === 44) {
+                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2PKH.AccountPub, this.state.SelectedCoin);
+                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2PKH.AccountPriv, this.state.SelectedCoin)
+                        }
+                        if (Utxos[i].purpose === 49) {
+                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2SHInP2WPKH.AccountPub, this.state.SelectedCoin);
+                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2SHInP2WPKH.AccountPriv, this.state.SelectedCoin);
+                        }
+                        if (Utxos[i].purpose === 84) {
+                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPub, this.state.SelectedCoin);
+                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPriv, this.state.SelectedCoin);
+                        }
+                        this.PubPrivPairs.push({pubKey: PubKey, privKey: PrivKey});
+                    }
                     this.TimerShowInterval = window.setInterval(
                         () => {this.setState( {TimerShow: this.state.TimerShow - 1})
                         }, 1000);
-                    // Show private information
 
                 } else {
                     for (let member in this.wallet) delete this.wallet[member];
@@ -95,20 +139,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
 
 
     }
-    handleMnemonicInput = (e) => {
-        let mnemonic = e.target.value;
-        let validMnemonic = bip39.validateMnemonic(mnemonic);
-        if (validMnemonic) {
-            this.setState({MnemonicPhrase: mnemonic, WrongMnemonic: false})
-        } else {
-            this.setState( {MnemonicPhrase: "", WrongMnemonic: true, Ready: false})
-        }
-    };
 
-    handleSelectedCoin = (e) => {
-        let selectedCoin = CoinFactory.getCoinConfig(e.target.value);
-        this.setState({SelectedCoin: selectedCoin} );
-    };
 
     createCoinsDropdown() {
         let AvailableCoins = CoinFactory.getAvailableCoins();
@@ -232,7 +263,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
             for (let member in this.wallet) delete this.wallet[member];
             clearInterval(this.TimerShowInterval);
             this.setState({View: 1}, () => {
-                this.setState({TimerShow: 10})
+                this.setState({TimerShow: 60})
             });
             return(<span/>)
         } else {
@@ -253,7 +284,9 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                                     </Row>
                                 </CardBody>
                                 <CardFooter>
-                                    <span style={{fontSize: "10px"}}>All information will be deleted in {this.state.TimerShow} seconds </span>
+                                    <Row className="justify-content-end">
+                                        <span style={{fontSize: "10px"}}>All information will be deleted in {this.state.TimerShow} seconds </span>
+                                    </Row>
                                 </CardFooter>
                             </Card>
                         </Container>
@@ -268,7 +301,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
             for (let member in this.wallet) delete this.wallet[member];
             clearInterval(this.TimerResumeInterval);
             this.setState({View: 1}, () => {
-                this.setState({TimerResume: 10})
+                this.setState({TimerResume: 120})
             });
             return(<span/>)
         } else {
@@ -318,6 +351,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         return (
             <Navbar className="navbar-color" expand="md">
                 <NavbarBrand href="https://polispay.com" target="_blank" rel="noopener noreferrer"><img alt="PolisPay"  width="100px" src={logo}/></NavbarBrand>
+                <NavItem className="ml-auto"><Button onClick={this.clearAll} color="primary">Clear Information</Button></NavItem>
             </Navbar>
         )
     }
