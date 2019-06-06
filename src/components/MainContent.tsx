@@ -6,6 +6,7 @@ import {CoinFactory} from "../models/coin-factory/coin-factory";
 import {Coin} from "../models/coin-factory/coin";
 import LoadingOverlay from 'react-loading-overlay';
 import {WalletCreator} from "../services/wallet/wallet";
+import {Wallet} from "../models/wallet/wallet";
 
 export interface MainContentProps {
 }
@@ -115,8 +116,44 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
     startRecovery() {
         this.setState({Loading: true}, async () => {
             // Create keys and addressess
-            await WalletCreator.prototype.createWallet(this.state.MnemonicPhrase, this.state.SelectedCoin, 44)
-            // Check for available balanaces
+            let wallet: Wallet = {
+                P2WPKH: {
+                    AccountPriv: null,
+                    AccountPub: null,
+                    Address: [],
+                    LastPathChange: 0,
+                    LastPathDirect: 0,
+                },
+                ETH: {
+                    AccountPriv: null,
+                    AccountPub: null,
+                    Address: [],
+                    LastPathChange: 0,
+                    LastPathDirect: 0,
+                },
+                P2SHInP2WPKH: {
+                    AccountPriv: null,
+                    AccountPub: null,
+                    Address: [],
+                    LastPathChange: 0,
+                    LastPathDirect: 0,
+                },
+                P2PKH: {
+                    AccountPriv: null,
+                    AccountPub: null,
+                    Address: [],
+                    LastPathChange: 0,
+                    LastPathDirect: 0,
+                }
+            };
+            if (this.state.SelectedCoin.segwitAvailable) {
+                await WalletCreator.prototype.createWallet(wallet, this.state.MnemonicPhrase, this.state.SelectedCoin, 44);
+                await WalletCreator.prototype.createWallet(wallet, this.state.MnemonicPhrase, this.state.SelectedCoin, 49);
+                await WalletCreator.prototype.createWallet(wallet, this.state.MnemonicPhrase, this.state.SelectedCoin, 84);
+            } else {
+                await WalletCreator.prototype.createWallet(wallet, this.state.MnemonicPhrase, this.state.SelectedCoin, 44);
+            }
+            console.log(wallet);
 
             // Finish data and render results
             /*this.setState( {View: 2}, () => {

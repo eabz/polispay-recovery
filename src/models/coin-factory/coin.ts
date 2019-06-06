@@ -7,7 +7,9 @@ export interface Coin {
     // "blockbook" for Trezor Blockbook
     // "electrum" for Electrumx Websocket
     preferedBackend: string;
-    backendUrl: string;
+    electrumHost?: ElectrumHost;
+    blockbookHost?: string;
+    insightHost?: string;
     segwitAvailable: boolean;
     base58prefixes: Base58Prefixes;
 }
@@ -19,4 +21,9 @@ export interface Base58Prefixes {
     ExtPub: number;
     ExtPriv: number;
     Bech32?: string;
+}
+
+export interface ElectrumHost {
+    url: string;
+    port: string;
 }

@@ -11,15 +11,42 @@ export interface Network {
 }
 
 export interface Wallet {
-    RootPriv: string;
-    AccountPub: string;
-    AccountPriv: string;
+    P2PKH?: {
+        AccountPub: string;
+        AccountPriv: string;
+        Address: Address[];
+        LastPathDirect: number;
+        LastPathChange: number;
+
+    },
+    P2WPKH?: {
+        AccountPub: string;
+        AccountPriv: string;
+        Address: Address[];
+        LastPathDirect: number;
+        LastPathChange: number;
+    },
+    P2SHInP2WPKH?: {
+        AccountPub: string;
+        AccountPriv: string;
+        Address: Address[];
+        LastPathDirect: number;
+        LastPathChange: number;
+    },
+    ETH?: {
+        AccountPub: string;
+        AccountPriv: string;
+        Address: Address[];
+        LastPathDirect: number;
+        LastPathChange: number;
+    },
+
 }
 
 export interface Address {
     scripthash: string;
     address: string;
     purpose: number;
-    derivationPath: number;
+    path: string;
     type: string;
 }

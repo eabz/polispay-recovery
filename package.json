@@ -20,11 +20,13 @@
     "electron-is-dev": "^1.1.0",
     "hdkey": "^1.1.1",
     "jquery": "^3.4.1",
+    "json-rpc-ws": "^7.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-loading-overlay": "^1.0.1",
     "react-scripts": "3.0.1",
     "reactstrap": "^8.0.0",
+    "simple-jsonrpc-js": "^1.0.0",
     "typescript": "3.4.5"
   },
   "scripts": {

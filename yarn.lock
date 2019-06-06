@@ -6986,6 +6986,14 @@ json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
   integrity sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==
 
+json-rpc-ws@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/json-rpc-ws/-/json-rpc-ws-7.0.1.tgz#b90b79b988670dd4cccc8e36b18d890ea62d3ca7"
+  integrity sha512-iHk12nVpK1vCqrCrt7oyZV8Rw4bTOwOqCB2InwP0/z3KNRL+E9HYDRvOuGpB5XZDwCiB3mRKT8MQQQoBn39fsw==
+  dependencies:
+    uuid "^3.0.0"
+    ws "^6.1.2"
+
 json-schema-traverse@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
@@ -10438,6 +10446,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
+simple-jsonrpc-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/simple-jsonrpc-js/-/simple-jsonrpc-js-1.0.0.tgz#a59c57bb0c145f68bf9713222b4b91cbe2a4369a"
+  integrity sha512-u5zOLz8gOThKT2IBrjaKhdtl7/Meh435XKiPOfjQDSaGbMfmtQgl7zrmliossPCuHfoVY7lHm7nlb6MeJXMMJw==
+
 simple-swizzle@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
@@ -11550,7 +11563,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.3.2:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==

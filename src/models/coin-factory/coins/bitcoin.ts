@@ -5,8 +5,11 @@ export class Bitcoin implements Coin {
     tag = "btc";
     coinType = 0;
     preferedBackend = "electrumx";
-    backendUrl = "https://electrum.polispay.com";
-    segwitAvailable = false;
+    electrumHost = {
+        url: "electrum.polispay.com",
+        port: "52001"
+    };
+    segwitAvailable = true;
     base58prefixes = {
         Public: 0,
         Script: 5,

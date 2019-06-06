@@ -5,7 +5,10 @@ export class Polis implements Coin {
     tag = "polis";
     coinType = 1997;
     preferedBackend = "electrumx";
-    backendUrl = "https://electrum.polispay.com";
+    electrumHost = {
+        url: "electrum.polispay.com",
+        port: "52003"
+    };
     segwitAvailable = false;
     base58prefixes = {
         Public: 55,
