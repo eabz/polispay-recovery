@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as bip39 from "bip39";
+import BootstrapTable from 'react-bootstrap-table-next';
 
 import {
     Alert,
@@ -12,7 +13,7 @@ import {
     FormGroup,
     Input,
     InputGroup, Modal, ModalBody, ModalFooter, ModalHeader, Navbar, NavbarBrand, NavItem,
-    Row
+    Row, Toast, ToastBody, ToastHeader
 } from "reactstrap";
 import {CoinFactory} from "../models/coin-factory/coin-factory";
 import {Coin} from "../models/coin-factory/coin";
@@ -32,10 +33,11 @@ export interface MainContentState {
     WrongMnemonic: boolean
     View: number;
     Loading: boolean;
-    ShowPrivate: boolean;
+    PairsLoaded: boolean;
     TimerShow: number,
     TimerResume: number,
     WelcomeModalClosed: boolean,
+    ToastOpen: boolean,
 }
 class MainContent extends React.Component<MainContentProps, MainContentState> {
 
@@ -45,6 +47,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         this.showPrivInfo = this.showPrivInfo.bind(this);
         this.clearAll = this.clearAll.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.toastClose = this.toastClose.bind(this);
 
     };
 
@@ -60,11 +63,12 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         WrongMnemonic: false,
         View: 1,
         Loading: false,
+        PairsLoaded: false,
         Purpose: 44,
-        ShowPrivate: false,
         TimerShow: 60,
         TimerResume: 120,
         WelcomeModalClosed: false,
+        ToastOpen: false,
     };
 
 
@@ -85,9 +89,10 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
 
     clearAll() {
         for (let member in this.wallet) delete this.wallet[member];
+        this.PubPrivPairs = [];
         clearInterval(this.TimerShowInterval);
         clearInterval(this.TimerResumeInterval);
-        this.setState({View: 1, TimerShow: 60, TimerResume: 120})
+        this.setState({View: 1, TimerShow: 60, TimerResume: 120, PairsLoaded: false})
     }
 
     showPrivInfo() {
@@ -128,13 +133,15 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                         }
                         this.PubPrivPairs.push({pubKey: PubKey, privKey: PrivKey});
                     }
+                    this.setState({PairsLoaded: true});
                     this.TimerShowInterval = window.setInterval(
                         () => {this.setState( {TimerShow: this.state.TimerShow - 1})
                         }, 1000);
 
                 } else {
-                    for (let member in this.wallet) delete this.wallet[member];
-                    this.setState({ View: 1})
+
+                    this.PubPrivPairs = [];
+                    this.setState({ View: 1, PairsLoaded: false})
                 }
 
             });
@@ -201,6 +208,18 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         )
     }
     componentDidUpdate(prevProps: Readonly<MainContentProps>, prevState: Readonly<MainContentState>, snapshot?: any): void {
+        if (this.state.TimerResume <= 0) {
+            for (let member in this.wallet) delete this.wallet[member];
+            this.PubPrivPairs = [];
+            clearInterval(this.TimerResumeInterval);
+            this.setState({View: 1, TimerResume: 120, PairsLoaded: false});
+        }
+        if (this.state.TimerShow <= 0) {
+            for (let member in this.wallet) delete this.wallet[member];
+            this.PubPrivPairs = [];
+            clearInterval(this.TimerShowInterval);
+            this.setState({View: 1, TimerShow: 60, PairsLoaded: false})
+        }
         if (!this.state.WrongMnemonic && this.state.MnemonicPhrase !== "" && this.state.SelectedCoin && !this.state.Ready) {
             this.setState({Ready: true})
         }
@@ -261,15 +280,59 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         })
     }
 
+    async copyToClipboard(Text) {
+        const { clipboard } = require('electron');
+        await clipboard.writeText(Text);
+        this.setState({ToastOpen: true})
+
+    }
+
+    async toastClose() {
+        this.setState({
+            ToastOpen: !this.state.ToastOpen
+        });
+    }
+
+    renderPairsTable() {
+
+        if (this.state.PairsLoaded) {
+            let tableRows = [];
+            for (let i = 0; i < this.PubPrivPairs.length; i++) {
+                let row = <tr><th key={i}>{i}</th><td>{ this.PubPrivPairs[i].pubKey}</td><td>Otto</td></tr>;
+                tableRows.push(row)
+            }
+            let columns = [
+                {
+                    dataField: 'pubKey',
+                    text: 'Public Key',
+                },
+                {
+                    dataField: 'privKey',
+                    text: 'Private Key',
+                    formatter: (cell) => {
+                        return(<Button className="btn-sm" color="primary" onClick={ () => this.copyToClipboard(cell) }>Copy Key</Button>)
+                    }
+                }
+            ];
+            return(
+                <div className="table-responsive">
+                    <BootstrapTable
+                        keyField="pubKey"
+                        data={ this.PubPrivPairs }
+                        columns={ columns }
+                        striped
+                        hover
+                    />
+                    <Toast isOpen={this.state.ToastOpen}>
+                        <ToastHeader toggle={this.toastClose}>Key copied to Clipboard</ToastHeader>
+                    </Toast>
+                </div>
+
+            )
+        }
+    }
+
     renderPrivKeyShow() {
-        if (this.state.TimerShow <= 0) {
-            for (let member in this.wallet) delete this.wallet[member];
-            clearInterval(this.TimerShowInterval);
-            this.setState({View: 1}, () => {
-                this.setState({TimerShow: 60})
-            });
-            return(<span/>)
-        } else {
             return(
                 <div>
                     { this.renderNavBar() }
@@ -283,7 +346,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                                     <div style={{textAlign: "center"}}>
                                     </div>
                                     <Row className="justify-content-center">
-
+                                        { this.renderPairsTable() }
                                     </Row>
                                 </CardBody>
                                 <CardFooter>
@@ -296,18 +359,9 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     </div>
                 </div>
             )
-        }
     }
 
     renderScanResume() {
-        if (this.state.TimerResume <= 0) {
-            for (let member in this.wallet) delete this.wallet[member];
-            clearInterval(this.TimerResumeInterval);
-            this.setState({View: 1}, () => {
-                this.setState({TimerResume: 120})
-            });
-            return(<span/>)
-        } else {
             return (
                 <div>
                     {this.renderNavBar()}
@@ -347,7 +401,6 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     </div>
                 </div>
             )
-        }
     }
 
     renderNavBar(){
