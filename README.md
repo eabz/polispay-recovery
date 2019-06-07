@@ -1,5 +1,7 @@
 # PolisPay Recovery
 
+WARNING: This program has not been audited for security.
+
 PolisPay Recovery is an open-source tool to recovery private keys from mnemonic phrases for multiple cryptocurrencies.
 Currently supporting:
 * Polis (POLIS)
