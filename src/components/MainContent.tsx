@@ -13,7 +13,7 @@ import {
     FormGroup,
     Input,
     InputGroup, Modal, ModalBody, ModalFooter, ModalHeader, Navbar, NavbarBrand, NavItem,
-    Row, Toast, ToastBody, ToastHeader
+    Row, Toast, ToastHeader
 } from "reactstrap";
 import {CoinFactory} from "../models/coin-factory/coin-factory";
 import {Coin} from "../models/coin-factory/coin";
