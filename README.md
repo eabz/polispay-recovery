@@ -1,5 +1,7 @@
 # PolisPay Recovery
 
+`master` [![CircleCI](https://circleci.com/gh/eabz/polispay-recovery/tree/master.svg?style=svg)](https://circleci.com/gh/eabz/polispay-recovery/tree/master)
+
 WARNING: This program has not been audited for security.
 
 PolisPay Recovery is an open-source tool to recovery private keys from mnemonic phrases for multiple cryptocurrencies.
