@@ -58,5 +58,5 @@ gpg --import signatures/cronos.asc
 
 Check binaries signing
 ```
-yarn run verify (or npm run verify)
+gpg --verify SIGNATURE-FILE.asc BINARY-FILE(.dmg .exe .snap)
 ```
