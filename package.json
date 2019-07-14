@@ -6,6 +6,7 @@
     "email": "eabz@polispay.org",
     "name": "Enrique Berrueta"
   },
+  "description": "A tool for recovering private keys from mnemonic phrases",
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
@@ -37,7 +38,16 @@
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "yarn install && yarn build",
-    "electron-pack": "build -mwl"
+    "electron-pack": "build -mwl",
+    "postelectron-pack": "yarn run sign && yarn run verify",
+    "sign": "yarn run sign:win && yarn run sign:mac && yarn run sign:linux",
+    "sign:win": "cd dist && rm -rf PolisPay-Recovery-Windows.exe.asc && gpg --local-user Cronos --sign --armor --detach-sig PolisPay-Recovery-Windows.exe && cd ../",
+    "sign:mac": "cd dist && rm -rf PolisPay-Recovery-macOS.dmg.asc && gpg --local-user Cronos --sign --armor --detach-sig PolisPay-Recovery-macOS.dmg && cd ../",
+    "sign:linux": "cd dist && rm -rf PolisPay-Recovery-Linux.snap.asc && gpg --local-user Cronos --sign --armor --detach-sig PolisPay-Recovery-Linux.snap && cd ../",
+    "verify": "yarn run verify:win && yarn run verify:mac && yarn run verify:linux",
+    "verify:win": "gpg --verify dist/PolisPay-Recovery-Windows.exe.asc dist/PolisPay-Recovery-Windows.exe",
+    "verify:mac": "gpg --verify dist/PolisPay-Recovery-macOS.dmg.asc dist/PolisPay-Recovery-macOS.dmg",
+    "verify:linux": "gpg --verify dist/PolisPay-Recovery-Linux.snap.asc dist/PolisPay-Recovery-Linux.snap"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,7 +57,17 @@
     "productName": "PolisPay Recovery",
     "copyright": "Copyright © 2019 ${author}",
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "target": "dmg"
+    },
+    "dmg": {
+      "artifactName": "PolisPay-Recovery-macOS.dmg"
+    },
+    "nsis": {
+      "artifactName": "PolisPay-Recovery-Windows.exe"
+    },
+    "linux": {
+      "artifactName": "PolisPay-Recovery-Linux.snap"
     },
     "files": [
       "build/**/*",
