@@ -1,6 +1,6 @@
 {
   "name": "polispay-recovery",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "author": {
     "email": "eabz@polispay.org",
@@ -36,7 +36,7 @@
     "test": "rescripts test",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "yarn build",
+    "preelectron-pack": "yarn install && yarn build",
     "electron-pack": "build -mwl"
   },
   "eslintConfig": {
