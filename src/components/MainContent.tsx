@@ -121,7 +121,6 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                         let PubKey;
                         let PrivKey;
                         let purpose  = Utxos[i].path.split("/")[1].split("'")[0];
-                        console.log(purpose);
                         if (purpose === "44") {
                            PubKey = Utxos[i].address;
                             PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2PKH.AccountPriv, this.state.SelectedCoin)
@@ -134,7 +133,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                            PubKey = Utxos[i].address;
                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPriv, this.state.SelectedCoin);
                         }
-                        this.PubPrivPairs.push({pubKey: PubKey, privKey: PrivKey});
+                        this.PubPrivPairs.push({index: i, pubKey: PubKey, privKey: PrivKey});
                     }
                     this.setState({PairsLoaded: true});
                     this.TimerShowInterval = window.setInterval(
@@ -304,7 +303,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
             return(
                 <div className="table-responsive">
                     <BootstrapTable
-                        keyField="pubKey"
+                        keyField="index"
                         data={ this.PubPrivPairs }
                         columns={ columns }
                         striped
@@ -390,7 +389,7 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
         return (
             <Navbar className="navbar-color" expand="md">
                 <NavbarBrand href="https://polispay.com" target="_blank" rel="noopener noreferrer"><img alt="PolisPay"  width="100px" src={logo}/></NavbarBrand>
-                <NavItem className="ml-auto"><Button onClick={this.clearAll} color="primary">Clear Information</Button></NavItem>
+                <Button onClick={this.clearAll} color="primary">Clear Information</Button>
             </Navbar>
         )
     }
