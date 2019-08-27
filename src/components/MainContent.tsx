@@ -22,6 +22,7 @@ import {WalletCreator} from "../services/wallet/wallet";
 import {Wallet} from "../models/wallet/wallet";
 import confirm from 'reactstrap-confirm';
 import logo from "../assets/polispay-white.svg";
+import {UtxoResponse} from "../models/blockbook/blockbook";
 
 export interface MainContentProps {
 }
@@ -115,21 +116,23 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                     clearInterval(this.TimerResumeInterval);
                     this.setState({TimerResume: 120});
                     // Show private information
-                    let Utxos = [].concat(this.wallet.P2PKH.Utxos, this.wallet.P2WPKH.Utxos, this.wallet.P2SHInP2WPKH.Utxos, this.wallet.ETH.Utxos);
+                    let Utxos: UtxoResponse[] = [].concat(this.wallet.P2PKH.Utxos, this.wallet.P2WPKH.Utxos, this.wallet.P2SHInP2WPKH.Utxos, this.wallet.ETH.Utxos);
                     for (let i = 0; i < Utxos.length; i++) {
                         let PubKey;
                         let PrivKey;
-                        if (Utxos[i].purpose === 44) {
-                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2PKH.AccountPub, this.state.SelectedCoin);
+                        let purpose  = Utxos[i].path.split("/")[1].split("'")[0];
+                        console.log(purpose);
+                        if (purpose === "44") {
+                           PubKey = Utxos[i].address;
                             PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2PKH.AccountPriv, this.state.SelectedCoin)
                         }
-                        if (Utxos[i].purpose === 49) {
-                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2SHInP2WPKH.AccountPub, this.state.SelectedCoin);
-                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2SHInP2WPKH.AccountPriv, this.state.SelectedCoin);
+                        if (purpose === "49") {
+                           PubKey = Utxos[i].address;
+                           PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2SHInP2WPKH.AccountPriv, this.state.SelectedCoin);
                         }
-                        if (Utxos[i].purpose === 84) {
-                            PubKey = WalletCreator.prototype.getPublicKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPub, this.state.SelectedCoin);
-                            PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPriv, this.state.SelectedCoin);
+                        if (purpose === "84") {
+                           PubKey = Utxos[i].address;
+                           PrivKey = WalletCreator.prototype.getPrivateKeyFromUtxo(Utxos[i], this.wallet.P2WPKH.AccountPriv, this.state.SelectedCoin);
                         }
                         this.PubPrivPairs.push({pubKey: PubKey, privKey: PrivKey});
                     }
@@ -228,36 +231,20 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
     startRecovery() {
         this.wallet = {
             P2WPKH: {
-                AccountPriv: null,
-                AccountPub: null,
-                Address: [],
-                LastPathChange: 0,
-                LastPathDirect: 0,
                 Utxos: [],
+                AccountPriv: "",
             },
             ETH: {
-                AccountPriv: null,
-                AccountPub: null,
-                Address: [],
-                LastPathChange: 0,
-                LastPathDirect: 0,
                 Utxos: [],
+                AccountPriv: "",
             },
             P2SHInP2WPKH: {
-                AccountPriv: null,
-                AccountPub: null,
-                Address: [],
-                LastPathChange: 0,
-                LastPathDirect: 0,
                 Utxos: [],
+                AccountPriv: "",
             },
             P2PKH: {
-                AccountPriv: null,
-                AccountPub: null,
-                Address: [],
-                LastPathChange: 0,
-                LastPathDirect: 0,
                 Utxos: [],
+                AccountPriv: "",
             }
         };
         this.setState({Loading: true}, async () => {
@@ -377,10 +364,6 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
                                     <Row className="justify-content-center">
                                         <span
                                             style={{fontWeight: "bold"}}>Coin scanned: </span>&nbsp;{this.state.SelectedCoin.name}
-                                    </Row>
-                                    <Row className="justify-content-center">
-                                        <span
-                                            style={{fontWeight: "bold"}}>Address scanned: </span>&nbsp;{this.wallet.P2PKH.Address.length + this.wallet.P2SHInP2WPKH.Address.length + this.wallet.P2WPKH.Address.length + this.wallet.ETH.Address.length}
                                     </Row>
                                     <Row className="justify-content-center">
                                         <span

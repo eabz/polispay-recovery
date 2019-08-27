@@ -3,13 +3,7 @@ export interface Coin {
     tag: string;
     // https://github.com/satoshilabs/slips/blob/master/slip-0044.md
     coinType: number;
-    // "insight" for Insight
-    // "blockbook" for Trezor Blockbook
-    // "electrum" for Electrumx Websocket
-    preferedBackend: string;
-    electrumHost?: ElectrumHost;
-    blockbookHost?: string;
-    insightHost?: string;
+    blockbook: string;
     segwitAvailable: boolean;
     network: NetworkPrefixes;
 }

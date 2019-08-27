@@ -1,6 +1,6 @@
 # PolisPay Recovery
 
-`master` [![CircleCI](https://circleci.com/gh/eabz/polispay-recovery/tree/master.svg?style=svg)](https://circleci.com/gh/eabz/polispay-recovery/tree/master)
+[![CircleCI](https://circleci.com/gh/eabz/polispay-recovery/tree/master.svg?style=svg)](https://circleci.com/gh/eabz/polispay-recovery/tree/master)
 
 WARNING: This program has not been audited for security.
 
@@ -9,6 +9,7 @@ Currently supporting:
 * Polis (POLIS)
 * Bitcoin (BTC)
 * Dash (DASH)
+* Litecoin (LTC)
 
 ### Building
 

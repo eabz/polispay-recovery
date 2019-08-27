@@ -1,56 +1,22 @@
-export interface Network {
-    wif: number;
-    bip32: {
-        public: number;
-        private: number;
-    };
-    messagePrefix?: string;
-    bech32?: string;
-    pubKeyHash?: number;
-    scriptHash?: number;
-}
+import {UtxoResponse} from "../blockbook/blockbook";
 
 export interface Wallet {
     P2PKH?: {
-        AccountPub: string;
         AccountPriv: string;
-        Address: Address[];
-        LastPathDirect: number;
-        LastPathChange: number;
-        Utxos: [];
+        Utxos: UtxoResponse[];
 
     },
     P2WPKH?: {
-        AccountPub: string;
         AccountPriv: string;
-        Address: Address[];
-        LastPathDirect: number;
-        LastPathChange: number;
-        Utxos: [];
+        Utxos: UtxoResponse[];
     },
     P2SHInP2WPKH?: {
-        AccountPub: string;
         AccountPriv: string;
-        Address: Address[];
-        LastPathDirect: number;
-        LastPathChange: number;
-        Utxos: [];
+        Utxos: UtxoResponse[];
     },
     ETH?: {
-        AccountPub: string;
         AccountPriv: string;
-        Address: Address[];
-        LastPathDirect: number;
-        LastPathChange: number;
-        Utxos: [];
+        Utxos: UtxoResponse[];
     },
 
-}
-
-export interface Address {
-    scripthash: string;
-    address: string;
-    purpose: number;
-    path: number;
-    type: string;
 }

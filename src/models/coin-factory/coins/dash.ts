@@ -4,11 +4,7 @@ export class Dash implements Coin {
     name = 'Dash (DASH)';
     tag = "dash";
     coinType = 5;
-    preferedBackend = "electrumx";
-    electrumHost = {
-        url: "electrum.polispay.com",
-        port: "52003"
-    };
+    blockbook = "https://dash1.trezor.io";
     segwitAvailable = false;
     network = {
         messagePrefix: "\x18Dash Signed Message\n",

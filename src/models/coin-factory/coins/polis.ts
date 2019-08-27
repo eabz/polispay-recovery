@@ -4,11 +4,7 @@ export class Polis implements Coin {
     name = 'Polis (POLIS)';
     tag = "polis";
     coinType = 1997;
-    preferedBackend = "electrumx";
-    electrumHost = {
-        url: "electrum.polispay.com",
-        port: "52003"
-    };
+    blockbook = "https://blockbook.polispay.org";
     segwitAvailable = false;
     network = {
         messagePrefix: "\x18Polis Signed Message\n",

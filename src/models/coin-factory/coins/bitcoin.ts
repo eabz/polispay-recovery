@@ -4,11 +4,7 @@ export class Bitcoin implements Coin {
     name = 'Bitcoin (BTC)';
     tag = "btc";
     coinType = 0;
-    preferedBackend = "electrumx";
-    electrumHost = {
-        url: "electrum.polispay.com",
-        port: "52001"
-    };
+    blockbook = "https://btc1.trezor.io";
     segwitAvailable = true;
     network = {
         messagePrefix: "\x18Bitcoin Signed Message\n",
