@@ -36,12 +36,12 @@ yarn install
 
 Run the app on electron
 ```
-yarn run electron-dev
+yarn run electron:run
 ```
 
-Compile binaries
+Create binaries
 ```
-yarn run electron-pack
+yarn run electron:pack
 ```
 
 
