@@ -21,8 +21,3 @@ interface Bip32 {
     public: number;
     private: number;
 }
-
-export interface ElectrumHost {
-    url: string;
-    port: string;
-}

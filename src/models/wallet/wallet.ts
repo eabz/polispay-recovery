@@ -4,7 +4,6 @@ export interface Wallet {
     P2PKH?: {
         AccountPriv: string;
         Utxos: UtxoResponse[];
-
     },
     P2WPKH?: {
         AccountPriv: string;
