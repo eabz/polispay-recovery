@@ -25,7 +25,7 @@
     "react-bootstrap-table-next": "^3.1.9",
     "react-dom": "16.9.0",
     "react-loading-overlay": "1.0.1",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.1.2",
     "reactstrap": "8.0.1",
     "reactstrap-confirm": "1.1.0",
     "simple-jsonrpc-js": "1.0.1",
