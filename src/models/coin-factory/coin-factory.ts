@@ -4,6 +4,7 @@ import {Dash} from "./coins/dash";
 import {Bitcoin} from "./coins/bitcoin";
 import {Litecoin} from "./coins/litecoin";
 import {Digibyte} from "./coins/digibyte";
+import { Aryacoin } from "./coins/aryacoin";
 
 export class CoinFactory {
     static coins: { [name: string]: Coin } = {
@@ -12,6 +13,7 @@ export class CoinFactory {
         DASH: new Dash(),
         LTC: new Litecoin(),
         DGB: new Digibyte(),
+        AYA: new Aryacoin(),
     };
 
     static coinList: Coin[] = [
@@ -20,6 +22,7 @@ export class CoinFactory {
         CoinFactory.coins.DASH,
         CoinFactory.coins.LTC,
         CoinFactory.coins.DGB,
+        CoinFactory.coins.AYA,
     ];
 
     static getCoinConfig(tag: string): Coin {

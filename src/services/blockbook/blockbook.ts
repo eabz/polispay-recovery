@@ -5,7 +5,8 @@ import {UtxoResponse} from "../../models/blockbook/blockbook";
 export class Blockbook {
 
     static async GetUtxosFromXpub(coin: Coin, xpub: string): Promise<AxiosResponse<UtxoResponse[]>> {
-      return await axios.get<UtxoResponse[]>(coin.blockbook + "/api/v2/utxo/" + xpub);
+      console.log(xpub)
+      return await axios.get<UtxoResponse[]>(coin.blockbook + "/api/v2/utxo/" + xpub + "?confirmed=true");
     }
 
 
