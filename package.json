@@ -1,6 +1,6 @@
 {
   "name": "polispay-recovery",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "author": {
     "email": "eabz@polispay.org",
@@ -10,25 +10,30 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.2",
+    "@types/jest": "^25.2.2",
+    "@types/node": "^14.0.1",
     "@types/react": "^16.9.2",
-    "@types/react-dom": "16.9.0",
-    "@types/reactstrap": "8.0.4",
+    "@types/react-dom": "16.9.8",
+    "@types/reactstrap": "8.4.2",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
     "axios": "^0.19.0",
     "bip39": "3.0.2",
-    "bitcoinjs-lib": "5.1.4",
+    "bitcoinjs-lib": "5.1.7",
     "bootstrap": "^4.3.1",
-    "electron-is-dev": "1.1.0",
-    "jquery": "^3.4.1",
-    "react": "16.9.0",
-    "react-bootstrap-table-next": "^3.1.9",
-    "react-dom": "16.9.0",
+    "classnames": "^2.2.6",
+    "electron-is-dev": "1.2.0",
+    "jquery": "3.5.1",
+    "popper.js": "^1.16.1",
+    "prop-types": "^15.7.2",
+    "react": "16.13.1",
+    "react-bootstrap-table-next": "^4.0.2",
+    "react-dom": "16.13.1",
     "react-loading-overlay": "1.0.1",
-    "react-scripts": "3.1.1",
-    "reactstrap": "8.0.1",
-    "reactstrap-confirm": "1.1.0",
+    "react-scripts": "3.1.2",
+    "reactstrap": "8.4.1",
+    "reactstrap-confirm": "1.2.0",
     "simple-jsonrpc-js": "1.0.1",
+    "tslint": "^6.1.2",
     "typescript": "^3.5.3"
   },
   "scripts": {
@@ -36,7 +41,6 @@
     "build": "rescripts build",
     "electron:run": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron:pack": "build -mwl",
-    "postinstall": "yarn run build && electron-builder install-app-deps",
     "preelectron-pack": "yarn install && yarn build",
     "postelectron-pack": "yarn run sign && yarn run verify",
     "sign": "yarn run sign:win && yarn run sign:mac && yarn run sign:linux",
@@ -95,11 +99,11 @@
     ]
   },
   "devDependencies": {
-    "@rescripts/cli": "^0.0.11",
-    "@rescripts/rescript-env": "^0.0.10",
-    "concurrently": "^4.1.2",
-    "electron": "8.2.3",
-    "electron-builder": "22.5.1",
-    "wait-on": "^3.3.0"
+    "@rescripts/cli": "^0.0.14",
+    "@rescripts/rescript-env": "^0.0.12",
+    "concurrently": "^5.2.0",
+    "electron": "8.3.0",
+    "electron-builder": "22.6.1",
+    "wait-on": "5.0.0"
   }
 }

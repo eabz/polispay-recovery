@@ -155,9 +155,11 @@ class MainContent extends React.Component<MainContentProps, MainContentState> {
 
     createCoinsDropdown() {
         let AvailableCoins = CoinFactory.getAvailableCoins();
+        console.log(AvailableCoins)
         let children = [];
-        for (let i = 0; i < AvailableCoins.length; i++) {
-            children.push(<option key={AvailableCoins[i].tag} value={AvailableCoins[i].tag}>{AvailableCoins[i].name}</option>);
+        for (let coin of AvailableCoins) {
+            console.log(coin)
+            children.push(<option key={coin.tag} value={coin.tag}>{coin.name}</option>);
         }
         return children
     }
