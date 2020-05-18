@@ -8,6 +8,8 @@ Currently supporting:
 * Bitcoin (BTC)
 * Dash (DASH)
 * Litecoin (LTC)
+* Aryacoin (AYA)
+* Rapids (RPD)
 
 ### Building
 
